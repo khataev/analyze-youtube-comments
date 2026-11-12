@@ -1,0 +1,35 @@
+# Общая инфраструктура для всех backend-*: один Redis и один Postgres.
+# Каждый backend подключается к сети ayc-infra как к внешней и сам создаёт свою базу.
+#   docker compose up -d        — из этой папки, до запуска любого backend
+name: ayc-infra
+
+services:
+  redis:
+    image: redis:8-alpine
+    # noeviction: очереди нельзя вытеснять из памяти, лучше ошибка записи, чем потерянная задача
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports: ["6379:6379"]
+    volumes: [redis-data:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    ports: ["5432:5432"]
+    # С 18-й версии образ хранит данные в /var/lib/postgresql/<версия>/..., монтируется уровень выше
+    volumes: [pg-data:/var/lib/postgresql]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "app"]
+      interval: 5s
+
+networks:
+  default:
+    name: ayc-infra
+
+volumes:
+  redis-data:
+  pg-data:
