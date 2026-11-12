@@ -1,0 +1,12 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/khataev/analyze-youtube-comments-frontend.git
+[submodule "backend-go"]
+	path = backend-go
+	url = https://github.com/khataev/analyze-youtube-comments-backend-go.git
+[submodule "backend-python"]
+	path = backend-python
+	url = https://github.com/khataev/analyze-youtube-comments-backend-python.git
+[submodule "backend-node-nest-js"]
+	path = backend-node-nest-js
+	url = https://github.com/khataev/analyze-youtube-comments-backend-node-nest-js.git

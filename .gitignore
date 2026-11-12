@@ -1,2 +1,5 @@
 /backend-*/
+!/backend-go/
+!/backend-python/
+!/backend-node-nest-js/
 /.vscode/
